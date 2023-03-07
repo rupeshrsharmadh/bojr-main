@@ -32,6 +32,7 @@ public final class IOUtils {
         OutputStream output = null;
 
         try {
+            destination.getParentFile().mkdirs();
             output = new FileOutputStream(destination);
             copy(source, output);
         } finally {
@@ -104,6 +105,8 @@ public final class IOUtils {
             throw new IllegalArgumentException(destination + " exists and is a file, directory or path expected.");
         } else if (!destination.exists()) {
             destination.mkdirs();
+        } else if (!destination.canWrite()){
+            throw new IllegalArgumentException(destination + " is not writeable.");
         }
     }
 
